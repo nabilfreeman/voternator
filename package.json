@@ -1,0 +1,15 @@
+{
+  "name": "Voternator",
+  "version": "0.0.1",
+  "scripts": {
+    "deploy": "node -e \"require('grunt').tasks(['s3']);\""
+  },
+  "author": "freeman",
+  "devDependencies": {},
+  "dependencies": {
+    "dotenv": "^1.1.0",
+    "faye": "^1.1.1",
+    "grunt": "^0.4.5",
+    "grunt-s3": "^0.2.0-alpha.3"
+  }
+}
