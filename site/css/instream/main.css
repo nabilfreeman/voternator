@@ -39,7 +39,7 @@
 	}
 }
 
-voternator-main, voternator-tagline, voternator-table, voternator-choice, voternator-score, voternator-button{
+voternator-main, voternator-tagline, voternator-table, voternator-choice, voternator-score, voternator-tap{
 	display:block;
 }
 voternator-emoji{
@@ -53,6 +53,11 @@ voternator-main{
 	padding:40px 0px;
 	font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
 	line-height:normal;
+}
+
+voternator-main *{
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+  	-webkit-tap-highlight-color: transparent; /* For some Androids */
 }
 
 voternator-tagline{
@@ -93,10 +98,10 @@ voternator-choice{
 voternator-choice.voted voternator-score{
 	background:#333;
 }
-voternator-choice.voted voternator-button{
+voternator-choice.voted voternator-tap{
 	border:1px solid #333;
 }
-voternator-choice.voted voternator-button voternator-emoji{
+voternator-choice.voted voternator-tap voternator-emoji{
 	-webkit-animation: shakeText 0.1s linear alternate infinite;
 	-moz-animation: shakeText 0.1s linear alternate infinite;
 	-ms-animation: shakeText 0.1s linear alternate infinite;
@@ -143,7 +148,7 @@ voternator-choice.voted voternator-score:after{
 	color:#FFF;
 }
 
-voternator-button{
+voternator-tap{
 	border:1px solid #F0F0F0;
 	border-radius:5px;
 	border-top-left-radius: 0px;
@@ -156,10 +161,10 @@ voternator-button{
 	-o-transition:0.2s;
 	transition:0.2s;
 }
-voternator-button:hover{
+voternator-tap:hover{
 	border:1px solid #CDCDCD;
 }
-voternator-button:hover voternator-emoji{
+voternator-tap:hover voternator-emoji{
 	-webkit-animation: shakeText 0.1s linear alternate infinite;
 	-moz-animation: shakeText 0.1s linear alternate infinite;
 	-ms-animation: shakeText 0.1s linear alternate infinite;
@@ -167,7 +172,7 @@ voternator-button:hover voternator-emoji{
 	animation: shakeText 0.1s linear alternate infinite;
 }
 
-voternator-button voternator-img{
+voternator-tap voternator-img{
 	background-position:center center;
 	background-size:contain;
 	background-repeat:no-repeat;
@@ -175,19 +180,19 @@ voternator-button voternator-img{
 }
 
 @media screen and (min-width:0px){
-	voternator-button voternator-img{
+	voternator-tap voternator-img{
 		height:24px;
 		width:24px;
 	}
 }
 @media screen and (min-width:400px){
-	voternator-button voternator-img{
+	voternator-tap voternator-img{
 		height:30px;
 		width:30px;
 	}
 }
 @media screen and (min-width:600px){
-	voternator-button voternator-img{
+	voternator-tap voternator-img{
 		height:36px;
 		width:36px;
 	}

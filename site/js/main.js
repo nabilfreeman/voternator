@@ -150,8 +150,10 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 		var voted = false;
 
-		var button = choice.querySelector("voternator-button");
-		button.addEventListener("click", function(){
+		var button = choice.querySelector("voternator-tap");
+
+		var handler =  function(e){
+			e.preventDefault();
 
 			if(voted){
 				choice.classList.remove("voted");
@@ -169,7 +171,10 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 				"height:" + (score.getAttribute("data-numero") * 20) + "px;"
 			);
 
-		});
+		};
+
+		button.addEventListener("touchstart", handler);
+		button.addEventListener("click", handler);
 
 		return choice;
 	};

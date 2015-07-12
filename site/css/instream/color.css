@@ -5,6 +5,6 @@ voternator-tagline{
 voternator-choice.voted voternator-score{
 	background:{{color}};
 }
-voternator-choice.voted voternator-button{
+voternator-choice.voted voternator-tap{
 	border:1px solid {{color}};
 }
