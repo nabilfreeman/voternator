@@ -42,12 +42,6 @@
 voternator-main, voternator-tagline, voternator-table, voternator-choice, voternator-score, voternator-tap{
 	display:block;
 }
-voternator-emoji{
-	display:inline;
-}
-voternator-img{
-	display:inline-block;
-}
 
 voternator-main{
 	padding:40px 0px;
@@ -101,7 +95,7 @@ voternator-choice.voted voternator-score{
 voternator-choice.voted voternator-tap{
 	border:1px solid #333;
 }
-voternator-choice.voted voternator-tap voternator-emoji{
+voternator-choice.voted voternator-tap .voternator-emoji{
 	-webkit-animation: shakeText 0.1s linear alternate infinite;
 	-moz-animation: shakeText 0.1s linear alternate infinite;
 	-ms-animation: shakeText 0.1s linear alternate infinite;
@@ -164,35 +158,30 @@ voternator-tap{
 voternator-tap:hover{
 	border:1px solid #CDCDCD;
 }
-voternator-tap:hover voternator-emoji{
-	-webkit-animation: shakeText 0.1s linear alternate infinite;
-	-moz-animation: shakeText 0.1s linear alternate infinite;
-	-ms-animation: shakeText 0.1s linear alternate infinite;
-	-o-animation: shakeText 0.1s linear alternate infinite;
-	animation: shakeText 0.1s linear alternate infinite;
-}
 
-voternator-tap voternator-img{
+voternator-tap .voternator-emoji{
 	background-position:center center;
 	background-size:contain;
 	background-repeat:no-repeat;
+
 	vertical-align:middle;
+	margin:0 auto;
 }
 
 @media screen and (min-width:0px){
-	voternator-tap voternator-img{
+	voternator-tap .voternator-emoji{
 		height:24px;
 		width:24px;
 	}
 }
 @media screen and (min-width:400px){
-	voternator-tap voternator-img{
+	voternator-tap .voternator-emoji{
 		height:30px;
 		width:30px;
 	}
 }
 @media screen and (min-width:600px){
-	voternator-tap voternator-img{
+	voternator-tap .voternator-emoji{
 		height:36px;
 		width:36px;
 	}
