@@ -45,10 +45,14 @@ voternator-main, voternator-tagline, voternator-table, voternator-choice, votern
 voternator-emoji{
 	display:inline;
 }
+voternator-img{
+	display:inline-block;
+}
 
 voternator-main{
 	padding:40px 0px;
 	font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+	line-height:normal;
 }
 
 voternator-tagline{
@@ -56,6 +60,8 @@ voternator-tagline{
 	text-transform:uppercase;
 
 	font-weight:bold;
+
+	font-size:16px;
 
 	color:#4000FF;
 	margin-bottom:30px;
@@ -120,6 +126,7 @@ voternator-score{
 }
 voternator-score:after{
 	content:attr(data-numero);
+	font-size:16px;
 	color:#BCBCBC;
 	font-style:italic;
 	font-weight:bold;
@@ -141,7 +148,7 @@ voternator-button{
 	border-radius:5px;
 	border-top-left-radius: 0px;
 	border-top-right-radius: 0px;
-	padding:10px 0px;
+	padding:15px 0px;
 
 	-webkit-transition:0.2s;
 	-moz-transition:0.2s;
@@ -160,18 +167,28 @@ voternator-button:hover voternator-emoji{
 	animation: shakeText 0.1s linear alternate infinite;
 }
 
+voternator-button voternator-img{
+	background-position:center center;
+	background-size:contain;
+	background-repeat:no-repeat;
+	vertical-align:middle;
+}
+
 @media screen and (min-width:0px){
-	voternator-button img{
+	voternator-button voternator-img{
 		height:24px;
+		width:24px;
 	}
 }
 @media screen and (min-width:400px){
-	voternator-button img{
+	voternator-button voternator-img{
 		height:30px;
+		width:30px;
 	}
 }
 @media screen and (min-width:600px){
-	voternator-button img{
+	voternator-button voternator-img{
 		height:36px;
+		width:36px;
 	}
 }

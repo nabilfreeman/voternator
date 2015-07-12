@@ -16,7 +16,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		//init stylesheet
 		var link = document.createElement("link");
 		link.setAttribute("rel", "stylesheet");
-		link.setAttribute("href", "css/" + module_name + ".css");
+		link.setAttribute("href", this.endpoint + "/css/" + module_name + ".css");
 
 		document.querySelector("head").appendChild(link);
 	};
@@ -46,7 +46,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 			}
 
 		};
-		xhr.open('GET', 'css/' + module_name + "/color.css");
+		xhr.open('GET', this.endpoint + '/css/' + module_name + "/color.css");
 		xhr.send();
 	};
 
@@ -73,7 +73,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 				};
 			}
 		};
-		xhr.open('GET', 'templates/' + template_name + ".html");
+		xhr.open('GET', this.endpoint + '/templates/' + template_name + ".html");
 		xhr.send();
 	};
 
@@ -88,9 +88,11 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 
 	//INSTREAM MODULE extends BASE MODULE
-	var Instream = function(placeholder){
+	var Instream = function(placeholder, endpoint){
 		//constructor....
 		WidgetModule.apply(this,arguments);
+
+		this.endpoint = endpoint;
 
 		this.applyStyle("instream/main");
 		this.loadTemplate("instream/choice");
@@ -131,6 +133,8 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 	};
 
 	Instream.prototype.generateChoice = function(config){
+		config.endpoint = this.endpoint;
+
 		var choice = this.templates["instream/choice"](config);
 
 		var score = choice.querySelector("voternator-score");
@@ -183,11 +187,13 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 	//INITIALIZE
 	(function(){
-		var widgets_script = document.querySelector("#freeman-voternator");
+		var widgets_script = document.querySelector("#the-voternator");
 		if(widgets_script === null) return; //malformatted script
 
+		var endpoint = ""; //dev
+
 		var namespace = {
-			instream: new Instream(widgets_script),
+			instream: new Instream(widgets_script, endpoint),
 		};
 
 		window._voternator = namespace;
@@ -198,7 +204,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 			namespace[key].namespace = namespace;
 			setTimeout(function(){
 				namespace[key].run();
-			}, 1000);
+			}, 1000); //TODO promise
 		}
 
 	})();
