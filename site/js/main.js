@@ -21,6 +21,35 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		document.querySelector("head").appendChild(link);
 	};
 
+	WidgetModule.prototype.customColor = function(module_name, color){
+		var self = this;
+
+		var xhr = new XMLHttpRequest();
+		xhr.onreadystatechange = function () {
+
+			if (xhr.readyState === 4) {
+				var victim = xhr.responseText;
+				var re = new RegExp("{{color}}", "g");
+				victim = victim.replace(re, color);
+
+				var style = document.createElement("style");
+				style.id = "voternator-custom-color";
+				style.type = "text/css";
+
+				if (style.styleSheet){
+					style.styleSheet.cssText = victim;
+				} else {
+					style.appendChild(document.createTextNode(victim));
+				}
+
+				document.head.appendChild(style);
+			}
+
+		};
+		xhr.open('GET', 'css/' + module_name + "/color.css");
+		xhr.send();
+	};
+
 	WidgetModule.prototype.loadTemplate = function(template_name){
 		var self = this;
 
@@ -79,23 +108,23 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 	Instream.prototype.getData = function(){
 		return [
 			{
-				symbol:"😂",
+				symbol:"joy",
 				score:5
 			},
 			{
-				symbol:"😍",
+				symbol:"heart_eyes",
 				score:3
 			},
 			{
-				symbol:"😱",
+				symbol:"scream",
 				score:9
 			},
 			{
-				symbol:"😝",
+				symbol:"stuck_out_tongue_closed_eyes",
 				score:0
 			},
 			{
-				symbol:"💩",
+				symbol:"poop",
 				score:8
 			}
 		];
@@ -107,12 +136,30 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		var score = choice.querySelector("voternator-score");
 		score.setAttribute(
 			"style",
-			"height:" + (score.getAttribute("data-numero") * 10) + "px;"
+			"height:" + (score.getAttribute("data-numero") * 15) + "px;"
 		);
+
+		var voted = false;
 
 		var button = choice.querySelector("voternator-button");
 		button.addEventListener("click", function(){
-			choice.classList.toggle("voted");
+
+			if(voted){
+				choice.classList.remove("voted");
+				config.score -= 1;
+			} else {
+				choice.classList.add("voted");
+				config.score += 1;
+			}
+
+			voted = !voted;
+
+			score.setAttribute("data-numero", config.score);
+			score.setAttribute(
+				"style",
+				"height:" + (score.getAttribute("data-numero") * 20) + "px;"
+			);
+
 		});
 
 		return choice;

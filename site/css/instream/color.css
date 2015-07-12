@@ -1,0 +1,10 @@
+voternator-tagline{
+	color:{{color}};
+}
+
+voternator-choice.voted voternator-score{
+	background:{{color}};
+}
+voternator-choice.voted voternator-button{
+	border:1px solid {{color}};
+}
