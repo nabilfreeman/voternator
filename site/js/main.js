@@ -97,6 +97,11 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		this.applyStyle("instream/main");
 		this.loadTemplate("instream/choice");
 
+		var color = placeholder.getAttribute("color");
+		if(color){
+			this.customColor("instream", color);
+		}
+
 		var voternator = document.createElement("voternator-main");
 		voternator.innerHTML = "<voternator-tagline>Share your reaction! 25 votes already:</voternator-tagline";
 
