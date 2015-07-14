@@ -2,8 +2,10 @@
   "name": "Voternator",
   "version": "0.0.1",
   "scripts": {
+    "start": "node ./server/server.js",
     "deploy": "node -e \"require('grunt').tasks(['s3']);\""
   },
+  "main": "./server/server.js",
   "author": "freeman",
   "devDependencies": {},
   "dependencies": {
@@ -11,7 +13,6 @@
     "faye": "^1.1.1",
     "grunt": "^0.4.5",
     "grunt-s3": "^0.2.0-alpha.3",
-    "mysql": "^2.7.0",
-    "node-jsdom": "^3.1.5"
+    "mysql": "^2.7.0"
   }
 }

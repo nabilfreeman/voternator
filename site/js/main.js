@@ -128,7 +128,21 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 	};
 
+	Instream.prototype.upvote = function(id){
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'http://localhost:8000/vote/up');
+		xhr.send("choice=" + id);
+	};
+
+	Instream.prototype.downvote = function(id){
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', 'http://localhost:8000/vote/down');
+		xhr.send("choice=" + id);
+	}
+
 	Instream.prototype.generateChoice = function(config){
+		var self = this;
+
 		config.endpoint = this.endpoint;
 
 		var choice = this.templates["instream/choice"](config);
@@ -149,9 +163,13 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 			if(voted){
 				choice.classList.remove("voted");
 				config.score -= 1;
+
+				self.downvote(choice.getAttribute("data-choice-id"));
 			} else {
 				choice.classList.add("voted");
 				config.score += 1;
+
+				self.upvote(choice.getAttribute("data-choice-id"));
 			}
 
 			voted = !voted;
