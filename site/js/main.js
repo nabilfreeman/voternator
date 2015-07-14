@@ -46,7 +46,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 			}
 
 		};
-		xhr.open('GET', this.endpoint + '/css/' + module_name + "/color.css");
+		xhr.open('GET', this.endpoint + '/css/' + module_name + "/color.css", false);
 		xhr.send();
 	};
 
@@ -73,7 +73,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 				};
 			}
 		};
-		xhr.open('GET', this.endpoint + '/templates/' + template_name + ".html");
+		xhr.open('GET', this.endpoint + '/templates/' + template_name + ".html", false);
 		xhr.send();
 	};
 
@@ -113,28 +113,19 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 	Instream.prototype = Object.create(WidgetModule.prototype);
 
 	Instream.prototype.getData = function(){
-		return [
-			{
-				symbol:"joy",
-				score:5
-			},
-			{
-				symbol:"heart_eyes",
-				score:3
-			},
-			{
-				symbol:"scream",
-				score:9
-			},
-			{
-				symbol:"stuck_out_tongue_closed_eyes",
-				score:0
-			},
-			{
-				symbol:"poop",
-				score:8
-			}
-		];
+
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', 'http://localhost:8000/votes', false);
+		xhr.send(null);
+
+		if (xhr.status === 200) {
+			var obj = JSON.parse(xhr.responseText);
+
+			return obj.data;
+		} else {
+			return [];
+		}
+
 	};
 
 	Instream.prototype.generateChoice = function(config){
@@ -212,9 +203,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		for(var key in namespace){
 			//run...
 			namespace[key].namespace = namespace;
-			setTimeout(function(){
-				namespace[key].run();
-			}, 1000); //TODO promise
+			namespace[key].run();
 		}
 
 	})();
