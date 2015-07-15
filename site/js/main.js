@@ -209,7 +209,8 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		var widgets_script = document.querySelector("#the-voternator");
 		if(widgets_script === null) return; //malformatted script
 
-		var endpoint = ""; //dev
+		var endpoint = "https://voternator-nfrmn.rhcloud.com"; //production
+		// var endpoint = ""; //dev
 
 		var namespace = {
 			instream: new Instream(widgets_script, endpoint),
