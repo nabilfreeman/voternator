@@ -4,7 +4,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     s3: {
       options: {
-        region: 'eu-west-1',
+        region: 'us-east-1',
         access: 'public-read',
         debug: false,
         gzip: true
@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         options: {
           key: process.env.key,
           secret: process.env.secret,
-          bucket: "voternator.instafork.com"
+          bucket: "the-voternator-resources"
         },
 
         sync: [

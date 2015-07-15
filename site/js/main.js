@@ -16,7 +16,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		//init stylesheet
 		var link = document.createElement("link");
 		link.setAttribute("rel", "stylesheet");
-		link.setAttribute("href", this.endpoint + "/css/" + module_name + ".css");
+		link.setAttribute("href", this.resources_endpoint + "/css/" + module_name + ".css");
 
 		document.querySelector("head").appendChild(link);
 	};
@@ -46,7 +46,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 			}
 
 		};
-		xhr.open('GET', this.endpoint + '/css/' + module_name + "/color.css", false);
+		xhr.open('GET', this.resources_endpoint + '/css/' + module_name + "/color.css", false);
 		xhr.send();
 	};
 
@@ -73,7 +73,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 				};
 			}
 		};
-		xhr.open('GET', this.endpoint + '/templates/' + template_name + ".html", false);
+		xhr.open('GET', this.resources_endpoint + '/templates/' + template_name + ".html", false);
 		xhr.send();
 	};
 
@@ -88,11 +88,12 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 
 	//INSTREAM MODULE extends BASE MODULE
-	var Instream = function(placeholder, endpoint){
+	var Instream = function(placeholder, api_endpoint, resources_endpoint){
 		//constructor....
 		WidgetModule.apply(this,arguments);
 
-		this.endpoint = endpoint;
+		this.api_endpoint = api_endpoint;
+		this.resources_endpoint = resources_endpoint;
 
 		this.applyStyle("instream/main");
 		this.loadTemplate("instream/choice");
@@ -115,7 +116,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 	Instream.prototype.getData = function(){
 
 		var xhr = new XMLHttpRequest();
-		xhr.open('GET', 'http://localhost:8000/votes', false);
+		xhr.open('GET', this.api_endpoint + '/votes', false);
 		xhr.send(null);
 
 		if (xhr.status === 200) {
@@ -130,20 +131,20 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 	Instream.prototype.upvote = function(id){
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', 'http://localhost:8000/vote/up');
+		xhr.open('POST', this.api_endpoint + '/vote/up');
 		xhr.send("choice=" + id);
 	};
 
 	Instream.prototype.downvote = function(id){
 		var xhr = new XMLHttpRequest();
-		xhr.open('POST', 'http://localhost:8000/vote/down');
+		xhr.open('POST', this.api_endpoint + '/vote/down');
 		xhr.send("choice=" + id);
 	}
 
 	Instream.prototype.generateChoice = function(config){
 		var self = this;
 
-		config.endpoint = this.endpoint;
+		config.endpoint = this.resources_endpoint;
 
 		var choice = this.templates["instream/choice"](config);
 
@@ -209,11 +210,13 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		var widgets_script = document.querySelector("#the-voternator");
 		if(widgets_script === null) return; //malformatted script
 
-		var endpoint = "https://voternator-nfrmn.rhcloud.com"; //production
-		// var endpoint = ""; //dev
+		var api_endpoint = "https://voternator-nfrmn.rhcloud.com"; //production
+		var resources_endpoint = "https://s3.amazonaws.com/the-voternator-resources"; //production
+		// var api_endpoint = "http://localhost:8000"; //dev
+		// var resources_endpoint = ""; //dev
 
 		var namespace = {
-			instream: new Instream(widgets_script, endpoint),
+			instream: new Instream(widgets_script, api_endpoint, resources_endpoint),
 		};
 
 		window._voternator = namespace;
