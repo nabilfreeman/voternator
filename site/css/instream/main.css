@@ -1,4 +1,4 @@
-@-webkit-keyframes shakeText{
+@-webkit-keyframes voternatorJiggle{
 	0%{
 		-webkit-transform:rotate(-10deg);
 	}
@@ -6,7 +6,7 @@
 		-webkit-transform:rotate(10deg);
 	}
 }
-@-moz-keyframes shakeText{
+@-moz-keyframes voternatorJiggle{
 	0%{
 		-moz-transform:rotate(-10deg);
 	}
@@ -14,7 +14,7 @@
 		-moz-transform:rotate(10deg);
 	}
 }
-@-ms-keyframes shakeText{
+@-ms-keyframes voternatorJiggle{
 	0%{
 		-ms-transform:rotate(-10deg);
 	}
@@ -22,7 +22,7 @@
 		-ms-transform:rotate(10deg);
 	}
 }
-@-o-keyframes shakeText{
+@-o-keyframes voternatorJiggle{
 	0%{
 		-o-transform:rotate(-10deg);
 	}
@@ -30,13 +30,22 @@
 		-o-transform:rotate(10deg);
 	}
 }
-@keyframes shakeText{
+@keyframes voternatorJiggle{
 	0%{
 		transform:rotate(-10deg);
 	}
 	100%{
 		transform:rotate(10deg);
 	}
+}
+
+@-webkit-keyframes voternatorSlideToUnlock {
+  0% {
+    background-position: -300px 0;
+  }
+  100% {
+    background-position: 300px 0;
+  }
 }
 
 voternator-main, voternator-tagline, voternator-table, voternator-choice, voternator-score, voternator-tap{
@@ -58,12 +67,19 @@ voternator-tagline{
 	font-style:italic;
 	text-transform:uppercase;
 
+	text-align:center;
+
 	font-weight:bold;
 
-	font-size:16px;
+	font-size:18px;
 
 	color:#333;
 	margin-bottom:30px;
+
+	background: -webkit-gradient(linear,left top,right top,color-stop(0, #333),color-stop(0.4, #333),color-stop(0.5, white),color-stop(0.6, #333),color-stop(1, #333));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	-webkit-animation: voternatorSlideToUnlock 5s infinite;
 }
 
 voternator-table{
@@ -96,11 +112,11 @@ voternator-choice.voted voternator-tap{
 	border:1px solid #333;
 }
 voternator-choice.voted voternator-tap .voternator-emoji{
-	-webkit-animation: shakeText 0.1s linear alternate infinite;
-	-moz-animation: shakeText 0.1s linear alternate infinite;
-	-ms-animation: shakeText 0.1s linear alternate infinite;
-	-o-animation: shakeText 0.1s linear alternate infinite;
-	animation: shakeText 0.1s linear alternate infinite;
+	-webkit-animation: voternatorJiggle 0.1s linear alternate infinite;
+	-moz-animation: voternatorJiggle 0.1s linear alternate infinite;
+	-ms-animation: voternatorJiggle 0.1s linear alternate infinite;
+	-o-animation: voternatorJiggle 0.1s linear alternate infinite;
+	animation: voternatorJiggle 0.1s linear alternate infinite;
 }
 
 voternator-score{

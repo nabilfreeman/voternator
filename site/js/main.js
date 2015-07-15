@@ -104,7 +104,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		}
 
 		var voternator = document.createElement("voternator-main");
-		voternator.innerHTML = "<voternator-tagline>Share your reaction! 25 votes already:</voternator-tagline";
+		voternator.innerHTML = "<voternator-tagline>What's your reaction?</voternator-tagline";
 
 		placeholder.parentNode.insertBefore(voternator, placeholder);
 
@@ -151,8 +151,12 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		var score = choice.querySelector("voternator-score");
 		score.setAttribute(
 			"style",
-			"height:" + (score.getAttribute("data-numero") * 15) + "px;"
+			"height:" + (score.getAttribute("data-numero") * 30) + "px;"
 		);
+
+		if(score.getAttribute("data-numero") == 0){
+			score.setAttribute("data-numero", "");
+		}
 
 		var voted = false;
 
@@ -178,8 +182,12 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 			score.setAttribute("data-numero", config.score);
 			score.setAttribute(
 				"style",
-				"height:" + (score.getAttribute("data-numero") * 20) + "px;"
+				"height:" + (score.getAttribute("data-numero") * 30) + "px;"
 			);
+
+			if(score.getAttribute("data-numero") == 0){
+				score.setAttribute("data-numero", "");
+			}
 
 		};
 
