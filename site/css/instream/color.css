@@ -11,3 +11,6 @@ voternator-choice.voted voternator-score{
 voternator-choice.voted voternator-tap{
 	border:1px solid {{color}};
 }
+voternator-choice voternator-tap:hover{
+	border:1px solid {{color}};
+}

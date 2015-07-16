@@ -111,6 +111,10 @@ voternator-choice.voted voternator-score{
 voternator-choice.voted voternator-tap{
 	border:1px solid #333;
 }
+voternator-choice voternator-tap:hover{
+	border:1px solid #333;
+}
+
 voternator-choice.voted voternator-tap .voternator-emoji{
 	-webkit-animation: voternatorJiggle 0.1s linear alternate infinite;
 	-moz-animation: voternatorJiggle 0.1s linear alternate infinite;

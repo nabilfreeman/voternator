@@ -24,25 +24,43 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 	WidgetModule.prototype.customColor = function(module_name, color){
 		var self = this;
 
+		if(!this.themes) this.themes = {};
+
+		var addStyleSheet = function(victim){
+			var previous_style = document.querySelector("#voternator-custom-color-" + module_name);
+
+			var re = new RegExp("{{color}}", "g");
+			victim = victim.replace(re, color);
+
+			var style = document.createElement("style");
+			style.id = "voternator-custom-color-" + module_name;
+			style.type = "text/css";
+
+			if (style.styleSheet){
+				style.styleSheet.cssText = victim;
+			} else {
+				style.appendChild(document.createTextNode(victim));
+			}
+
+			document.head.appendChild(style);
+
+			if(previous_style){
+				previous_style.parentNode.removeChild(previous_style);
+			}
+		}
+
+		if(this.themes && this.themes[module_name]){
+			addStyleSheet(this.themes[module_name]);
+
+			return;
+		}
+
 		var xhr = new XMLHttpRequest();
 		xhr.onreadystatechange = function () {
 
 			if (xhr.readyState === 4) {
-				var victim = xhr.responseText;
-				var re = new RegExp("{{color}}", "g");
-				victim = victim.replace(re, color);
-
-				var style = document.createElement("style");
-				style.id = "voternator-custom-color";
-				style.type = "text/css";
-
-				if (style.styleSheet){
-					style.styleSheet.cssText = victim;
-				} else {
-					style.appendChild(document.createTextNode(victim));
-				}
-
-				document.head.appendChild(style);
+				self.themes[module_name] = xhr.responseText;
+				addStyleSheet(xhr.responseText);
 			}
 
 		};
@@ -189,6 +207,13 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 				score.setAttribute("data-numero", "");
 			}
 
+			if(self.namespace.ga !== undefined){
+				console.log("one");
+				self.namespace.ga.trackEvent("voternator", "voted", {
+					symbol: config.content
+				});
+			}
+
 		};
 
 		button.addEventListener("touchstart", handler);
@@ -213,6 +238,92 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 
 
+
+
+	var GA = function() {
+		WidgetModule.apply(this,arguments);
+
+		this._account = "UA-65231671-1";
+		this._name = 'the_voternator';
+		this._ga = 'ga_' + this._name;
+
+	};
+
+	GA.prototype = Object.create(WidgetModule.prototype); // inherit
+
+	GA.prototype.run = function() {
+
+		//Analytics.js is a little messy. GoogleAnalyticsObject is a global that can take a custom name.
+		//It might be window.ga, window.foo, window.themag, etc.
+		//We don't want to overwrite that so check if it exists, use it if so (to not break partner sites),
+		//and set it 'ga' as default if not set.
+		window.GoogleAnalyticsObject = window.GoogleAnalyticsObject || this._ga;
+		this._ga = window.GoogleAnalyticsObject;
+
+		this._endpoint = '//www.google-analytics.com/analytics.js';
+
+		//if load script if not loaded otherwise continue
+		if (window[this._ga] === undefined) {
+			this._load();
+		}else{
+			this._loaded();
+		}
+
+	};
+
+	GA.prototype._loaded = function(){
+		//console.log("_loaded",this);
+		var ga = this._ga;
+		window[ga]('create', this._account, 'auto', {
+			'name': this._name
+		});
+		window[ga](this._name+'.require', 'displayfeatures');
+		window[ga](this._name+'.send', 'pageview');
+	};
+
+	GA.prototype._load = function(){
+		//now see GA is already loaded on the page
+		var target = this._endpoint;
+		var ga = this._ga;
+		window[ga] = window[ga] || function(){
+			(window[ga].q = window[ga].q || []).push(arguments);
+		};
+		//console.log("_load",this);
+		var self = this;
+		//For info: There used to be a comma above here instead of semicolon.
+		window[ga].l = (new Date()).getTime();
+
+		var script = document.createElement("script");
+		script.type = "text/javascript";
+		script.src = target;
+		script.async = true;
+		script.onload = function(){
+			self._loaded();
+			console.log("hey");
+		};
+
+		document.head.appendChild(script);
+	};
+
+	GA.prototype.trackEvent = function(category, action, label, extras){
+		console.log("two");
+
+		var ga = this._ga;
+		var args = [this._name+'.send', 'event', category, action];
+		if(extras !== undefined){
+			args.push('extras');
+			args.push(JSON.stringify(extras));
+		}
+		window[ga].apply(this, args);
+	};
+
+
+
+
+
+
+
+
 	//INITIALIZE
 	(function(){
 		var widgets_script = document.querySelector("#the-voternator");
@@ -225,6 +336,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 		var namespace = {
 			instream: new Instream(widgets_script, api_endpoint, resources_endpoint),
+			ga: new GA()
 		};
 
 		window._voternator = namespace;
