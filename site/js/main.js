@@ -5,6 +5,38 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 	//THE VOTERNATOR
 	//@author nabil freeman github.com/nabilfreeman
 
+
+	//TEMPLATES
+	var Templates = function(){
+		this._templates = {
+			"instream/choice": '<voternator-choice data-choice-id="{{choice}}"><voternator-score data-numero="{{score}}"></voternator-score><voternator-tap ontouchstart><div class="voternator-emoji" style="background-image:url({{endpoint}}/img/symbols/{{content}}.png)"></div></voternator-tap></voternator-choice>'
+		}
+	};
+
+	Templates.prototype.load = function(template_name){
+		var self = this;
+
+		return function(config){
+			var victim = self._templates[template_name];
+
+			for(var key in config){
+				var re = new RegExp("{{" + key.toString() + "}}", "g");
+				victim = victim.replace(re, config[key]);
+			}
+
+			var temp = document.createElement("div");
+			temp.innerHTML = victim;
+
+			return temp.firstChild;
+		}
+	}
+
+	Templates.prototype.run = function(){};
+
+
+
+
+
 	//BASE CLASS
 	var WidgetModule = function(){};
 
@@ -64,41 +96,9 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 			}
 
 		};
-		xhr.open('GET', this.resources_endpoint + '/css/' + module_name + "/color.css", false);
+		xhr.open('GET', this.resources_endpoint + '/css/' + module_name + "/color.css");
 		xhr.send();
 	};
-
-	WidgetModule.prototype.loadTemplate = function(template_name){
-		var self = this;
-
-		if(!this.templates) this.templates = {};
-
-		var xhr = new XMLHttpRequest();
-		xhr.onreadystatechange = function () {
-			if (xhr.readyState === 4) {
-				self.templates[template_name] = function(config){
-					var victim = xhr.responseText;
-
-					for(var key in config){
-						var re = new RegExp("{{" + key.toString() + "}}", "g");
-						victim = victim.replace(re, config[key]);
-					}
-
-					var temp = document.createElement("div");
-					temp.innerHTML = victim;
-
-					return temp.firstChild;
-				};
-			}
-		};
-		xhr.open('GET', this.resources_endpoint + '/templates/' + template_name + ".html", false);
-		xhr.send();
-	};
-
-
-
-
-
 
 
 
@@ -114,7 +114,6 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		this.resources_endpoint = resources_endpoint;
 
 		this.applyStyle("instream/main");
-		this.loadTemplate("instream/choice");
 
 		var color = placeholder.getAttribute("color");
 		if(color){
@@ -164,7 +163,7 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 		config.endpoint = this.resources_endpoint;
 
-		var choice = this.templates["instream/choice"](config);
+		var choice = this.namespace.templates.load("instream/choice")(config);
 
 		var score = choice.querySelector("voternator-score");
 		score.setAttribute(
@@ -208,7 +207,6 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 			}
 
 			if(self.namespace.ga !== undefined){
-				console.log("one");
 				self.namespace.ga.trackEvent("voternator", "voted", {
 					symbol: config.content
 				});
@@ -299,15 +297,12 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 		script.async = true;
 		script.onload = function(){
 			self._loaded();
-			console.log("hey");
 		};
 
 		document.head.appendChild(script);
 	};
 
 	GA.prototype.trackEvent = function(category, action, label, extras){
-		console.log("two");
-
 		var ga = this._ga;
 		var args = [this._name+'.send', 'event', category, action];
 		if(extras !== undefined){
@@ -336,7 +331,8 @@ NodeList.prototype.forEach = Array.prototype.forEach;
 
 		var namespace = {
 			instream: new Instream(widgets_script, api_endpoint, resources_endpoint),
-			ga: new GA()
+			ga: new GA(),
+			templates: new Templates()
 		};
 
 		window._voternator = namespace;
