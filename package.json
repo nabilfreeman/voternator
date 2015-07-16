@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "scripts": {
     "start": "node ./server/server.js",
-    "deploy": "node -e \"require('grunt').tasks(['s3']);\""
+    "deploy": "node -e \"require('grunt').tasks(['deploy']);\""
   },
   "main": "./server/server.js",
   "author": "freeman",
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt-contrib-copy": "^0.8.0",
+    "grunt-contrib-uglify": "^0.9.1"
+  },
   "dependencies": {
     "dotenv": "^1.1.0",
     "faye": "^1.1.1",

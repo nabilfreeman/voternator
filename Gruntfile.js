@@ -2,6 +2,21 @@ require('dotenv').load();
 module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    copy: {
+      main: {
+          expand: true,
+          cwd: 'site/',
+          src: '**',
+          dest: 'build/',
+      },
+    },
+    uglify: {
+        main: {
+            files: {
+                'build/js/main.js': ['build/js/main.js']
+            }
+        }
+    },
     s3: {
       options: {
         region: 'us-east-1',
@@ -18,9 +33,9 @@ module.exports = function(grunt) {
 
         sync: [
           {
-            src: 'site/**/*.*',
+            src: 'build/**/*.*',
             dest: '/',
-            rel: 'site',
+            rel: 'build',
             options: {
               verify: true
             }
@@ -30,4 +45,8 @@ module.exports = function(grunt) {
     },
   });
   grunt.loadNpmTasks('grunt-s3');
+  grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
+
+  grunt.registerTask('deploy', ['copy', 'uglify', 's3']);
 };
