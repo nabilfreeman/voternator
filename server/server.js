@@ -46,7 +46,7 @@ var server = http.createServer(function(request, response){
 	response.setHeader('Access-Control-Allow-Origin', '*');
 	response.setHeader('Access-Control-Request-Method', '*');
 	response.setHeader('Access-Control-Allow-Methods', 'OPTIONS, GET');
-	response.setHeader('Access-Control-Allow-Headers', '*');
+	response.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
 
 	if ( request.method === 'OPTIONS' ) {
 		response.writeHead(200);
